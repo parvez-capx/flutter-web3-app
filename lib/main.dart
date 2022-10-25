@@ -44,6 +44,14 @@ class _MyAppState extends State<MyApp> {
     HashMap themeMap = HashMap<String, String>();
     themeMap['primary'] = "#229954";
 
+    final loginConfig = HashMap<String, LoginConfigItem>();
+    loginConfig['jwt'] = LoginConfigItem(
+        verifier: "google-x-verifier", // get it from web3auth dashboard
+        typeOfLogin: TypeOfLogin.jwt,
+        name: "Custom JWT Login",
+        clientId: "capx-x-web3auth" // web3auth's plug and play client id
+        );
+
     Uri redirectUrl;
     if (Platform.isAndroid) {
       redirectUrl = Uri.parse('w3a://com.example.practice/auth');
@@ -55,11 +63,12 @@ class _MyAppState extends State<MyApp> {
 
     await Web3AuthFlutter.init(Web3AuthOptions(
         clientId:
-            'BNQdckvEJGu31O5G--r4ac_gU9udufoUcvZuLyhW2olpyLUNEpuCC3pD8cpBsHenvqkJoRmEXttiILXrvc67r1s',
-        network: Network.testnet,
+            'BKLOSPXdm5WN_6eijPsg2DhasXUV0ZCiSihcjeurL1VsJ1J52tAaE1E2AeC0E1c0Wibl6WIl4lLogkawBeafxqQ',
+        network: Network.mainnet,
         redirectUrl: redirectUrl,
         whiteLabel: WhiteLabelData(
-            dark: true, name: "Web3Auth Flutter App", theme: themeMap)));
+            dark: true, name: "Web3Auth Flutter App", theme: themeMap),
+        loginConfig: loginConfig));
   }
 
   @override
@@ -87,7 +96,7 @@ class _MyAppState extends State<MyApp> {
                       height: 40,
                     ),
                     const Text(
-                      'Connectt',
+                      'Connect',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 36,
@@ -111,11 +120,11 @@ class _MyAppState extends State<MyApp> {
                       height: 20,
                     ),
                     ElevatedButton(
-                        onPressed: _login(_withGoogle),
-                        child: const Text('Google')),
+                        onPressed: _login(_withDappShare),
+                        child: const Text('with D')),
                     ElevatedButton(
-                        onPressed: _login(_withFacebook),
-                        child: const Text('Facebook')),
+                        onPressed: _login(_withoutDappShare),
+                        child: const Text('without D')),
                   ],
                 ),
               ),
@@ -157,7 +166,7 @@ class _MyAppState extends State<MyApp> {
         final Web3AuthResponse response = await method();
         print(response.userInfo);
         setState(() {
-          _result = response.userInfo.toString();
+          _result = response.toString();
           logoutVisible = true;
         });
       } on UserCancelledException {
@@ -184,14 +193,13 @@ class _MyAppState extends State<MyApp> {
     };
   }
 
-  Future<Web3AuthResponse> _withGoogle() {
-    return Web3AuthFlutter.login(LoginParams(
-      loginProvider: Provider.google,
-      mfaLevel: MFALevel.DEFAULT,
-    ));
+  Future<Web3AuthResponse> _withDappShare() {
+    return Web3AuthFlutter.login(
+        LoginParams(loginProvider: Provider.jwt, mfaLevel: MFALevel.DEFAULT));
   }
 
-  Future<Web3AuthResponse> _withFacebook() {
-    return Web3AuthFlutter.login(LoginParams(loginProvider: Provider.facebook));
+  Future<Web3AuthResponse> _withoutDappShare() {
+    return Web3AuthFlutter.login(
+        LoginParams(loginProvider: Provider.jwt, mfaLevel: MFALevel.MANDATORY));
   }
 }
