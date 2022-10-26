@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1005311874100",
+    "project_id": "web3auth-flutter-app",
+    "storage_bucket": "web3auth-flutter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005311874100:android:5ab1a097e923714ab2a661",
+        "android_client_info": {
+          "package_name": "com.example.practice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005311874100-e5ao80oeifshl24l9505cj286djbt6g2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlWLDl7xYDmEd9UemGrhO3A6yPEQcsGsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005311874100-e5ao80oeifshl24l9505cj286djbt6g2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
